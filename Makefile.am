@@ -154,6 +154,8 @@ strace_SOURCES =	\
 	fs_x_ioctl.c	\
 	futex.c		\
 	gcc_compat.h	\
+	get_personality.c \
+	get_personality.h \
 	get_robust_list.c \
 	getcpu.c	\
 	getcwd.c	\
@@ -435,6 +437,7 @@ EXTRA_DIST =				\
 	linux/64/ioctls_inc.h		\
 	linux/64/syscallent.h		\
 	linux/aarch64/arch_defs_.h	\
+	linux/aarch64/arch_get_personality.c \
 	linux/aarch64/arch_regs.c	\
 	linux/aarch64/arch_sigreturn.c	\
 	linux/aarch64/get_error.c	\
@@ -523,6 +526,7 @@ EXTRA_DIST =				\
 	linux/bfin/set_scno.c		\
 	linux/bfin/syscallent.h		\
 	linux/bfin/userent.h		\
+	linux/check_scno.c		\
 	linux/dummy.h			\
 	linux/errnoent.h		\
 	linux/getregs_old.h		\
@@ -542,8 +546,8 @@ EXTRA_DIST =				\
 	linux/hppa/set_scno.c		\
 	linux/hppa/signalent.h		\
 	linux/hppa/syscallent.h		\
-	linux/i386/arch_kvm.c		\
 	linux/i386/arch_defs_.h		\
+	linux/i386/arch_kvm.c		\
 	linux/i386/arch_regs.c		\
 	linux/i386/arch_rt_sigframe.c	\
 	linux/i386/arch_sigreturn.c	\
@@ -681,6 +685,7 @@ EXTRA_DIST =				\
 	linux/powerpc/syscallent.h	\
 	linux/powerpc/userent.h		\
 	linux/powerpc64/arch_defs_.h	\
+	linux/powerpc64/arch_get_personality.c \
 	linux/powerpc64/arch_regs.c	\
 	linux/powerpc64/arch_rt_sigframe.c	\
 	linux/powerpc64/arch_sigreturn.c	\
@@ -704,6 +709,7 @@ EXTRA_DIST =				\
 	linux/ptrace_pokeuser.c		\
 	linux/raw_syscall.h		\
 	linux/riscv/arch_defs_.h	\
+	linux/riscv/arch_get_personality.c \
 	linux/riscv/arch_regs.c		\
 	linux/riscv/get_error.c		\
 	linux/riscv/get_scno.c		\
@@ -735,6 +741,7 @@ EXTRA_DIST =				\
 	linux/s390/userent0.h		\
 	linux/s390/userent1.h		\
 	linux/s390x/arch_defs_.h	\
+	linux/s390x/arch_get_personality.c \
 	linux/s390x/arch_regs.c		\
 	linux/s390x/arch_sigreturn.c	\
 	linux/s390x/get_error.c		\
@@ -804,6 +811,7 @@ EXTRA_DIST =				\
 	linux/sparc/syscallent.h	\
 	linux/sparc/userent.h		\
 	linux/sparc64/arch_defs_.h	\
+	linux/sparc64/arch_get_personality.c \
 	linux/sparc64/arch_getrval2.c	\
 	linux/sparc64/arch_regs.c	\
 	linux/sparc64/arch_rt_sigframe.c	\
@@ -827,6 +835,7 @@ EXTRA_DIST =				\
 	linux/subcall.h			\
 	linux/syscall.h			\
 	linux/tile/arch_defs_.h		\
+	linux/tile/arch_get_personality.c \
 	linux/tile/arch_regs.c		\
 	linux/tile/arch_sigreturn.c	\
 	linux/tile/get_error.c		\
@@ -847,11 +856,13 @@ EXTRA_DIST =				\
 	linux/userent.h			\
 	linux/userent0.h		\
 	linux/x32/arch_defs_.h		\
+	linux/x32/arch_get_personality.c \
 	linux/x32/arch_kvm.c		\
 	linux/x32/arch_regs.c		\
 	linux/x32/arch_regs.h		\
 	linux/x32/arch_rt_sigframe.c	\
 	linux/x32/arch_sigreturn.c	\
+	linux/x32/check_scno.c		\
 	linux/x32/get_error.c		\
 	linux/x32/get_scno.c		\
 	linux/x32/get_syscall_args.c	\
@@ -869,6 +880,7 @@ EXTRA_DIST =				\
 	linux/x32/syscallent1.h		\
 	linux/x32/userent.h		\
 	linux/x86_64/arch_defs_.h	\
+	linux/x86_64/arch_get_personality.c \
 	linux/x86_64/arch_kvm.c		\
 	linux/x86_64/arch_regs.c	\
 	linux/x86_64/arch_regs.h	\
