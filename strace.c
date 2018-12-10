@@ -452,9 +452,26 @@ static FILE *
 strace_fopen(const char *path)
 {
 	FILE *fp;
+	struct stat buffer;
+	int i = 1;
+	const char new_path[PATH_MAX];
 
+	//int snprintf(char *str, size_t size, const char *format, ...);
 	swap_uid();
+	if (stat(path, &buffer) == 0) {
+	  for (; i < 52; i++) {
+	    snprintf(new_path, sizeof(new_path), "%s_%d", path, i);
+	    if (stat(new_path, &buffer) == 0) {
+	      continue;
+	    } else {
+	      path = new_path;
+	      break;
+	    }
+	  }
+	}
+	
 	fp = fopen_stream(path, open_append ? "a" : "w");
+	
 	if (!fp)
 		perror_msg_and_die("Can't fopen '%s'", path);
 	swap_uid();
