@@ -460,7 +460,7 @@ strace_fopen(const char *path)
 	swap_uid();
 	if (stat(path, &buffer) == 0) {
 	  for (; i < 52; i++) {
-	    snprintf(new_path, sizeof(new_path), "%s_%d", path, i);
+	    snprintf(new_path, sizeof(new_path), "%s_%d_%lu", path, i, time(NULL));
 	    if (stat(new_path, &buffer) == 0) {
 	      continue;
 	    } else {
