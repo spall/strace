@@ -454,7 +454,8 @@ strace_fopen(const char *path)
 	FILE *fp;
 	struct stat buffer;
 	int i = 1;
-	const char new_path[PATH_MAX];
+	char new_path[PATH_MAX];
+	const char *orig_path = path;
 
 	//int snprintf(char *str, size_t size, const char *format, ...);
 	swap_uid();
@@ -468,6 +469,11 @@ strace_fopen(const char *path)
 	      break;
 	    }
 	  }
+	}
+
+	if (orig_path == path) {
+	  snprintf(new_path, sizeof(new_path), "%s_%lu", path, time(NULL));
+	  path = orig_path;
 	}
 	
 	fp = fopen_stream(path, open_append ? "a" : "w");
