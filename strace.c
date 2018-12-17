@@ -452,29 +452,40 @@ static FILE *
 strace_fopen(const char *path)
 {
 	FILE *fp;
-	struct stat buffer;
-	int i = 1;
 	char new_path[PATH_MAX];
-	const char *orig_path = path;
+	char m_tstamp[128] = {0};
+	ssize_t ret;
+	int temp_fd;
+	struct timespec ts;
+	char new_tstamp[128] = {0};
 
-	//int snprintf(char *str, size_t size, const char *format, ...);
-	swap_uid();
-	if (stat(path, &buffer) == 0) {
-	  for (; i < 52; i++) {
-	    snprintf(new_path, sizeof(new_path), "%s_%d_%lu", path, i, time(NULL));
-	    if (stat(new_path, &buffer) == 0) {
-	      continue;
-	    } else {
-	      path = new_path;
-	      break;
-	    }
+	temp_fd = open("/tmp/tstamp", O_RDWR);
+
+	if (temp_fd != -1) {
+	  ret = read(temp_fd, m_tstamp, sizeof(m_tstamp));
+	  if (ret < 0)
+	    perror_msg_and_die("Read of tstamp from tmp failed\n");
+	  
+	  m_tstamp[ret] = 0;
+
+	  //  write new random one
+	  if (clock_gettime(CLOCK_REALTIME, &ts) == -1) {
+	    perror_msg_and_die("clock_gettime");
 	  }
-	}
 
-	if (orig_path == path) {
-	  snprintf(new_path, sizeof(new_path), "%s_%lu", path, time(NULL));
-	  path = orig_path;
+	  lseek(temp_fd, 0, SEEK_SET);
+	  snprintf(new_tstamp, sizeof(new_tstamp), "%lld%ld", (long long) ts.tv_sec, ts.tv_nsec);
+	  if ( write(temp_fd, new_tstamp, strlen(new_tstamp)) == -1) {
+	    perror_msg_and_die("write");
+	  }
+	  
+	  close(temp_fd);
+
+	  snprintf(new_path, sizeof(new_path), "%s_%s", path, m_tstamp);
+	  path = new_path;
 	}
+	
+	swap_uid();
 	
 	fp = fopen_stream(path, open_append ? "a" : "w");
 	
