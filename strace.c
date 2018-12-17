@@ -474,8 +474,8 @@ strace_fopen(const char *path)
 	  }
 
 	  lseek(temp_fd, 0, SEEK_SET);
-	  snprintf(new_tstamp, sizeof(new_tstamp), "%lld%ld", (long long) ts.tv_sec, ts.tv_nsec);
-	  if ( write(temp_fd, new_tstamp, strlen(new_tstamp)) == -1) {
+	  snprintf(new_tstamp, sizeof(new_tstamp), "%lld%.9ld", (long long) ts.tv_sec, ts.tv_nsec);
+	  if ( write(temp_fd, new_tstamp, strlen(new_tstamp)+1) == -1) {
 	    perror_msg_and_die("write");
 	  }
 	  
